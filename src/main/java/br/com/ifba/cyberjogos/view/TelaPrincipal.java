@@ -8,10 +8,12 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.awt.Color;
+import org.springframework.context.annotation.Lazy;
 /**
  *
  * @author Italo
  */
+@Lazy
 @Component
 public class TelaPrincipal extends javax.swing.JFrame {
     

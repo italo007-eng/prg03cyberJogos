@@ -20,7 +20,9 @@
 
     <properties>
         <java.version>17</java.version>
+        <start-class>br.com.ifba.cyberjogos.Cyberjogos</start-class>
     </properties>
+    
 
     <dependencies>
 
@@ -49,12 +51,7 @@
             <scope>runtime</scope>
         </dependency>
         
-        <!-- H2: banco em memoria para testes locais -->
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>runtime</scope>
-        </dependency>
+        
         <dependency>
             <groupId>org.netbeans.external</groupId>
             <artifactId>AbsoluteLayout</artifactId>
@@ -65,8 +62,11 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+              <groupId>org.springframework.boot</groupId>
+              <artifactId>spring-boot-maven-plugin</artifactId>
+              <configuration>
+                <mainClass>br.com.ifba.cyberjogos.Cyberjogos</mainClass>
+              </configuration>
             </plugin>
         </plugins>
     </build>
