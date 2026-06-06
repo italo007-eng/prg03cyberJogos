@@ -225,20 +225,31 @@ public class JogoForm extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastrar Jogo");
+        setBackground(new java.awt.Color(248, 249, 250));
         setModal(true);
         setResizable(false);
         setSize(new java.awt.Dimension(520, 500));
 
-        btnCancelar.setText("Cancelar");
+        pnlBotoes.setBackground(new java.awt.Color(248, 249, 250));
 
+        btnCancelar.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        btnCancelar.setForeground(new java.awt.Color(100, 100, 100));
+        btnCancelar.setText("Cancelar");
+        btnCancelar.setFocusPainted(false);
+
+        btnSalvar.setBackground(new java.awt.Color(37, 99, 235));
+        btnSalvar.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        btnSalvar.setForeground(new java.awt.Color(255, 255, 255));
         btnSalvar.setText("Salvar");
+        btnSalvar.setBorderPainted(false);
+        btnSalvar.setFocusPainted(false);
 
         javax.swing.GroupLayout pnlBotoesLayout = new javax.swing.GroupLayout(pnlBotoes);
         pnlBotoes.setLayout(pnlBotoesLayout);
         pnlBotoesLayout.setHorizontalGroup(
             pnlBotoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBotoesLayout.createSequentialGroup()
-                .addContainerGap(425, Short.MAX_VALUE)
+                .addContainerGap(420, Short.MAX_VALUE)
                 .addGroup(pnlBotoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnCancelar)
                     .addComponent(btnSalvar))
@@ -256,41 +267,93 @@ public class JogoForm extends javax.swing.JDialog {
 
         getContentPane().add(pnlBotoes, java.awt.BorderLayout.PAGE_END);
 
+        pnlForm.setBackground(new java.awt.Color(255, 255, 255));
+        pnlForm.setBorder(javax.swing.BorderFactory.createEmptyBorder(16, 20, 16, 20));
         pnlForm.setLayout(new java.awt.GridLayout(8, 2, 10, 10));
 
+        lblTitulo.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        lblTitulo.setForeground(new java.awt.Color(85, 85, 85));
         lblTitulo.setText("Título: *");
         pnlForm.add(lblTitulo);
+
+        txtTitulo.setBackground(new java.awt.Color(250, 250, 250));
+        txtTitulo.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtTitulo.setForeground(new java.awt.Color(34, 34, 34));
+        txtTitulo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(221, 227, 234)));
         pnlForm.add(txtTitulo);
 
+        lblDescricao.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        lblDescricao.setForeground(new java.awt.Color(85, 85, 85));
         lblDescricao.setText("Descrição:");
         pnlForm.add(lblDescricao);
+
+        txtDescricao.setBackground(new java.awt.Color(250, 250, 250));
+        txtDescricao.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtDescricao.setForeground(new java.awt.Color(34, 34, 34));
+        txtDescricao.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(221, 227, 234)));
         pnlForm.add(txtDescricao);
 
+        lblDesenvolvedor.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        lblDesenvolvedor.setForeground(new java.awt.Color(85, 85, 85));
         lblDesenvolvedor.setText("Desenvolvedor:");
         pnlForm.add(lblDesenvolvedor);
+
+        txtDesenvolvedor.setBackground(new java.awt.Color(250, 250, 250));
+        txtDesenvolvedor.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtDesenvolvedor.setForeground(new java.awt.Color(34, 34, 34));
+        txtDesenvolvedor.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(221, 227, 234)));
         pnlForm.add(txtDesenvolvedor);
 
+        lblPreco.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        lblPreco.setForeground(new java.awt.Color(85, 85, 85));
         lblPreco.setText("Preço (R$): *");
         pnlForm.add(lblPreco);
+
+        txtPreco.setBackground(new java.awt.Color(250, 250, 250));
+        txtPreco.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtPreco.setForeground(new java.awt.Color(34, 34, 34));
+        txtPreco.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(221, 227, 234)));
         pnlForm.add(txtPreco);
 
+        lblEstoque.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        lblEstoque.setForeground(new java.awt.Color(85, 85, 85));
         lblEstoque.setText("Estoque: *");
         pnlForm.add(lblEstoque);
+
+        txtEstoque.setBackground(new java.awt.Color(250, 250, 250));
+        txtEstoque.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtEstoque.setForeground(new java.awt.Color(34, 34, 34));
+        txtEstoque.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(221, 227, 234)));
         pnlForm.add(txtEstoque);
 
+        lblPlataforma.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        lblPlataforma.setForeground(new java.awt.Color(85, 85, 85));
         lblPlataforma.setText("Plataforma: *");
         pnlForm.add(lblPlataforma);
 
+        cmbPlataforma.setBackground(new java.awt.Color(250, 250, 250));
+        cmbPlataforma.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        cmbPlataforma.setForeground(new java.awt.Color(34, 34, 34));
         pnlForm.add(cmbPlataforma);
 
+        lblGenero.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        lblGenero.setForeground(new java.awt.Color(85, 85, 85));
         lblGenero.setText("Gênero: *");
         pnlForm.add(lblGenero);
 
+        cmbGenero.setBackground(new java.awt.Color(250, 250, 250));
+        cmbGenero.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        cmbGenero.setForeground(new java.awt.Color(34, 34, 34));
         pnlForm.add(cmbGenero);
 
+        lblClassificacao.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        lblClassificacao.setForeground(new java.awt.Color(85, 85, 85));
         lblClassificacao.setText("Classificação: *");
         pnlForm.add(lblClassificacao);
 
+        cmbClassificacao.setBackground(new java.awt.Color(250, 250, 250));
+        cmbClassificacao.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        cmbClassificacao.setForeground(new java.awt.Color(34, 34, 34));
         pnlForm.add(cmbClassificacao);
 
         getContentPane().add(pnlForm, java.awt.BorderLayout.CENTER);
