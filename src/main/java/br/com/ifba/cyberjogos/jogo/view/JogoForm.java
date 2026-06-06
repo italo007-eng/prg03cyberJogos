@@ -3,18 +3,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
 package br.com.ifba.cyberjogos.jogo.view;
-
 import br.com.ifba.cyberjogos.jogo.model.Jogo;
 import br.com.ifba.cyberjogos.jogo.service.JogoService;
 import javax.swing.JOptionPane;
-
 /**
  * Formulário de cadastro e edição de Jogos.
- * Abre como janela modal (JDialog) em cima da tela de listagem.
+ * Abre como janela modal sobre a tela principal.
  *
- * Funciona em dois modos:
- *   - CADASTRO: jogo == null → campos vazios → INSERT no banco
- *   - EDIÇÃO:   jogo != null → campos preenchidos → UPDATE no banco
+ * Modos de operação:
+ *   CADASTRO → jogo == null → campos vazios → INSERT no banco
+ *   EDIÇÃO   → jogo != null → campos preenchidos → UPDATE no banco
  *
  * @author Italo
  */
@@ -22,47 +20,34 @@ public class JogoForm extends javax.swing.JDialog {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(JogoForm.class.getName());
 
-    /**
-     * Serviço para salvar o jogo no banco.
-     */
+    /** Serviço para salvar o jogo no banco */
     private final JogoService jogoService;
 
-    /**
-     * Jogo que está sendo editado.
-     * Null quando for um novo cadastro.
-     */
+    /** Jogo sendo editado — null para novo cadastro */
     private final Jogo jogoEditando;
 
-    /**
-     * Referência à tela de listagem para
-     * recarregar a tabela após salvar.
-     */
+    /** Referência à listagem para atualizar a tabela após salvar */
     private final JogoListar telaListar;
 
     /**
      * Construtor do formulário.
      *
-     * @param jogoService  serviço de jogo injetado pela tela de listagem
+     * @param jogoService  serviço de jogo
      * @param jogo         jogo a editar (null para novo cadastro)
      * @param telaListar   tela de listagem para atualizar após salvar
      */
-    /**
-     * Creates new form JogoForm
-     * @param jogoService
-     * @param jogo
-     * @param telaListar
-     */
+    
     public JogoForm(JogoService jogoService, Jogo jogo, JogoListar telaListar) {
         this.jogoService  = jogoService;
         this.jogoEditando = jogo;
         this.telaListar   = telaListar;
 
-        initComponents();
+        initComponents(); 
         setLocationRelativeTo(null);
         preencherCombos();
         configurarEventosBotoes();
 
-        // Se tiver jogo para editar, preenche os campos
+        // Define o modo: cadastro ou edição
         if (jogoEditando != null) {
             setTitle("Editar Jogo");
             preencherCampos();
@@ -70,19 +55,19 @@ public class JogoForm extends javax.swing.JDialog {
             setTitle("Cadastrar Jogo");
         }
     }
-
+    
     /**
      * Preenche os JComboBox com as opções disponíveis.
+     * Remove itens padrão antes de adicionar os corretos.
      */
     private void preencherCombos() {
-
-        // Opções de plataforma
+        cmbPlataforma.removeAllItems();
         cmbPlataforma.addItem("PC");
         cmbPlataforma.addItem("PS5");
         cmbPlataforma.addItem("Xbox");
         cmbPlataforma.addItem("Switch");
 
-        // Opções de gênero
+        cmbGenero.removeAllItems();
         cmbGenero.addItem("Ação");
         cmbGenero.addItem("Aventura");
         cmbGenero.addItem("RPG");
@@ -92,7 +77,7 @@ public class JogoForm extends javax.swing.JDialog {
         cmbGenero.addItem("Luta");
         cmbGenero.addItem("Simulação");
 
-        // Opções de classificação etária
+        cmbClassificacao.removeAllItems();
         cmbClassificacao.addItem("Livre");
         cmbClassificacao.addItem("10+");
         cmbClassificacao.addItem("12+");
@@ -102,8 +87,7 @@ public class JogoForm extends javax.swing.JDialog {
     }
     
     /**
-     * Preenche os campos do formulário com os dados
-     * do jogo que está sendo editado.
+     * Preenche os campos com os dados do jogo sendo editado.
      * Chamado apenas no modo EDIÇÃO.
      */
     private void preencherCampos() {
@@ -121,18 +105,13 @@ public class JogoForm extends javax.swing.JDialog {
      * Configura os eventos dos botões Salvar e Cancelar.
      */
     private void configurarEventosBotoes() {
-
-        // Botão SALVAR → valida e salva no banco
         btnSalvar.addActionListener(e -> salvar());
-
-        // Botão CANCELAR → fecha o formulário sem salvar
         btnCancelar.addActionListener(e -> dispose());
     }
-
+    
     /**
-     * Valida os campos obrigatórios, monta o objeto Jogo
-     * e salva no banco via JogoService.
-     * Após salvar, fecha o formulário e atualiza a tabela.
+     * Valida os campos, monta o objeto Jogo e salva no banco.
+     * Após salvar, atualiza a tabela e fecha o formulário.
      */
     private void salvar() {
 
@@ -166,7 +145,9 @@ public class JogoForm extends javax.swing.JDialog {
         int estoque;
 
         try {
-            preco = Double.parseDouble(txtPreco.getText().trim().replace(",", "."));
+            preco = Double.parseDouble(
+                txtPreco.getText().trim().replace(",", ".")
+            );
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this,
                 "Preço inválido. Use apenas números. Ex: 199.90",
@@ -186,9 +167,8 @@ public class JogoForm extends javax.swing.JDialog {
         }
 
         // Monta o objeto Jogo com os dados do formulário
-        // Se for edição, reutiliza o mesmo objeto (mantém o ID)
+        // Reutiliza o objeto se for edição (mantém o ID)
         Jogo jogo = (jogoEditando != null) ? jogoEditando : new Jogo();
-
         jogo.setTitulo(txtTitulo.getText().trim());
         jogo.setDescricao(txtDescricao.getText().trim());
         jogo.setDesenvolvedor(txtDesenvolvedor.getText().trim());
@@ -198,29 +178,33 @@ public class JogoForm extends javax.swing.JDialog {
         jogo.setGenero((String) cmbGenero.getSelectedItem());
         jogo.setClassificacaoEtaria((String) cmbClassificacao.getSelectedItem());
 
-        // Salva no banco (INSERT se novo, UPDATE se edição)
+        // Salva no banco via service
         jogoService.salvar(jogo);
 
-        // Mensagem de sucesso
         JOptionPane.showMessageDialog(this,
             "Jogo salvo com sucesso!",
             "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 
-        // Recarrega a tabela na tela de listagem
+        // Atualiza a tabela na tela de listagem
         telaListar.carregarJogos();
 
         // Fecha o formulário
         dispose();
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
      * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
+    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        pnlBotoes = new javax.swing.JPanel();
+        btnCancelar = new javax.swing.JButton();
+        btnSalvar = new javax.swing.JButton();
         pnlForm = new javax.swing.JPanel();
         lblTitulo = new javax.swing.JLabel();
         txtTitulo = new javax.swing.JTextField();
@@ -238,17 +222,41 @@ public class JogoForm extends javax.swing.JDialog {
         cmbGenero = new javax.swing.JComboBox<>();
         lblClassificacao = new javax.swing.JLabel();
         cmbClassificacao = new javax.swing.JComboBox<>();
-        pnlBotoes = new javax.swing.JPanel();
-        btnCancelar = new javax.swing.JButton();
-        btnSalvar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastrar Jogo");
         setModal(true);
-        setPreferredSize(new java.awt.Dimension(500, 480));
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        setResizable(false);
+        setSize(new java.awt.Dimension(520, 500));
 
-        pnlForm.setLayout(new java.awt.GridLayout(9, 2));
+        btnCancelar.setText("Cancelar");
+
+        btnSalvar.setText("Salvar");
+
+        javax.swing.GroupLayout pnlBotoesLayout = new javax.swing.GroupLayout(pnlBotoes);
+        pnlBotoes.setLayout(pnlBotoesLayout);
+        pnlBotoesLayout.setHorizontalGroup(
+            pnlBotoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBotoesLayout.createSequentialGroup()
+                .addContainerGap(425, Short.MAX_VALUE)
+                .addGroup(pnlBotoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnCancelar)
+                    .addComponent(btnSalvar))
+                .addGap(108, 108, 108))
+        );
+        pnlBotoesLayout.setVerticalGroup(
+            pnlBotoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlBotoesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnCancelar)
+                .addGap(18, 18, 18)
+                .addComponent(btnSalvar)
+                .addContainerGap(30, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(pnlBotoes, java.awt.BorderLayout.PAGE_END);
+
+        pnlForm.setLayout(new java.awt.GridLayout(8, 2, 10, 10));
 
         lblTitulo.setText("Título: *");
         pnlForm.add(lblTitulo);
@@ -256,8 +264,6 @@ public class JogoForm extends javax.swing.JDialog {
 
         lblDescricao.setText("Descrição:");
         pnlForm.add(lblDescricao);
-
-        txtDescricao.addActionListener(this::txtDescricaoActionPerformed);
         pnlForm.add(txtDescricao);
 
         lblDesenvolvedor.setText("Desenvolvedor:");
@@ -270,54 +276,28 @@ public class JogoForm extends javax.swing.JDialog {
 
         lblEstoque.setText("Estoque: *");
         pnlForm.add(lblEstoque);
-
-        txtEstoque.addActionListener(this::txtEstoqueActionPerformed);
         pnlForm.add(txtEstoque);
 
         lblPlataforma.setText("Plataforma: *");
         pnlForm.add(lblPlataforma);
 
-        cmbPlataforma.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         pnlForm.add(cmbPlataforma);
 
         lblGenero.setText("Gênero: *");
         pnlForm.add(lblGenero);
 
-        cmbGenero.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         pnlForm.add(cmbGenero);
 
         lblClassificacao.setText("Classificação: *");
         pnlForm.add(lblClassificacao);
 
-        cmbClassificacao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         pnlForm.add(cmbClassificacao);
 
-        getContentPane().add(pnlForm, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 610, 390));
-
-        pnlBotoes.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
-
-        btnCancelar.setText("Cancelar");
-        pnlBotoes.add(btnCancelar);
-
-        btnSalvar.setText("Salvar");
-        pnlBotoes.add(btnSalvar);
-
-        getContentPane().add(pnlBotoes, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 390, 610, 60));
+        getContentPane().add(pnlForm, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtDescricaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDescricaoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDescricaoActionPerformed
-
-    private void txtEstoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEstoqueActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtEstoqueActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
