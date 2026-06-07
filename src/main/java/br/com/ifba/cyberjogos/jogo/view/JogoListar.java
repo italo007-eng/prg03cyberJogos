@@ -227,6 +227,7 @@ public class JogoListar extends javax.swing.JPanel {
 
         scrollTabela.setBackground(new java.awt.Color(13, 17, 23));
         scrollTabela.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(30, 42, 58)));
+        scrollTabela.setViewportBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(0, 153, 51), new java.awt.Color(51, 153, 0), new java.awt.Color(0, 153, 102), new java.awt.Color(0, 153, 51)));
 
         tblJogos.setBackground(new java.awt.Color(13, 17, 23));
         tblJogos.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
