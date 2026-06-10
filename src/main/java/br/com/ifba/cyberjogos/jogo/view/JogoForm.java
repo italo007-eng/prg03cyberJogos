@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
 package br.com.ifba.cyberjogos.jogo.view;
-import br.com.ifba.cyberjogos.jogo.model.Jogo;
+import br.com.ifba.cyberjogos.jogo.entity.Jogo;
 import br.com.ifba.cyberjogos.jogo.service.JogoService;
 import javax.swing.JOptionPane;
 /**

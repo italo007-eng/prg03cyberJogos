@@ -4,7 +4,7 @@
  */
 package br.com.ifba.cyberjogos.jogo.service;
 
-import br.com.ifba.cyberjogos.jogo.model.Jogo;
+import br.com.ifba.cyberjogos.jogo.entity.Jogo;
 import br.com.ifba.cyberjogos.jogo.repository.JogoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package br.com.ifba.cyberjogos.jogo.model;
+package br.com.ifba.cyberjogos.jogo.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,33 +24,33 @@ public class Jogo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    // titulo do jogo
+    
     @Column(nullable = false)
     private String titulo;
     
-    //descricao detalhada do jogo
+    
     private String descricao;
     
-    //nome da empresa que desenvolve o jogo
+    
     private String desenvolvedor;
     
-    //preco de venda do jogo
+    
    @Column(nullable = false)
    private double preco;
    
-   //quantidade disponivel em estoque
+  
    @Column(nullable = false)
    private Integer quantidadeEstoque;
    
-   //plataforma do jogo: pc, ps5, xbox, switch
+   
    @Column(nullable = false)
    private String plataforma;
    
-   //genero do jogo: rpg, acao,fps,etc
+ 
    @Column(nullable = false)
    private String genero;
    
-   //classificacao etaria: livre,10+,16+,18+
+   
    private String classificacaoEtaria;
 
     public Jogo() {
