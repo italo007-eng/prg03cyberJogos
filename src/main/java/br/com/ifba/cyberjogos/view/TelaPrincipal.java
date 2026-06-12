@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.awt.Color;
 import org.springframework.context.annotation.Lazy;
+import br.com.ifba.cyberjogos.cliente.view.ClienteListar;
 /**
  * Tela principal do sistema CyberJogos.
  * Contém o menu de navegação lateral e o painel central
@@ -112,7 +113,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         switch (secao) {
             case "jogos" -> painel = (javax.swing.JPanel) context.getBean(JogoListar.class); 
-            // case "clientes" -> painel = context.getBean(ClienteListar.class);
+            case "clientes" -> painel = (javax.swing.JPanel) context.getBean(ClienteListar.class);
             // case "pedidos"  -> painel = context.getBean(PedidoListar.class);
         }
 
