@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import java.awt.Color;
 import org.springframework.context.annotation.Lazy;
 import br.com.ifba.cyberjogos.cliente.view.ClienteListar;
+import br.com.ifba.cyberjogos.administrador.view.AdministradorListar;
 /**
  * Tela principal do sistema CyberJogos.
  * Contém o menu de navegação lateral e o painel central
@@ -92,21 +93,21 @@ public class TelaPrincipal extends javax.swing.JFrame {
      * Configura os eventos de clique de todos os botões.
      */
     private void configurarEventosBotoes() {
-        btnNavJogos.addActionListener(e -> navegarPara("jogos"));
-        btnNavClientes.addActionListener(e -> navegarPara("clientes"));
-        btnNavPedidos.addActionListener(e -> navegarPara("pedidos"));
+    btnNavJogos.addActionListener(e -> navegarPara("jogos"));
+    btnNavClientes.addActionListener(e -> navegarPara("clientes"));
+    btnNavAdmin.addActionListener(e -> navegarPara("admin"));
 
-        btnMenuInicio.addActionListener(e -> mostrarPainelInicio());
-        btnMenuJogos.addActionListener(e -> navegarPara("jogos"));
-        btnMenuClientes.addActionListener(e -> navegarPara("clientes"));
-        btnMenuPedidos.addActionListener(e -> navegarPara("pedidos"));
-    }
+    btnMenuInicio.addActionListener(e -> mostrarPainelInicio());
+    btnMenuJogos.addActionListener(e -> navegarPara("jogos"));
+    btnMenuClientes.addActionListener(e -> navegarPara("clientes"));
+    btnMenuAdmin.addActionListener(e -> navegarPara("admin"));
+}
     
     /**
      * Navega para uma seção carregando o painel correspondente
      * no centro da tela principal.
      *
-     * @param secao nome da seção: "jogos", "clientes", "pedidos"
+     * @param secao 
      */
     public void navegarPara(String secao) {
         javax.swing.JPanel painel = null;
@@ -114,7 +115,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         switch (secao) {
             case "jogos" -> painel = (javax.swing.JPanel) context.getBean(JogoListar.class); 
             case "clientes" -> painel = (javax.swing.JPanel) context.getBean(ClienteListar.class);
-            // case "pedidos"  -> painel = context.getBean(PedidoListar.class);
+            case "admin"    -> painel = (javax.swing.JPanel) context.getBean(AdministradorListar.class);
+
         }
 
         if (painel != null) {
@@ -153,37 +155,24 @@ public class TelaPrincipal extends javax.swing.JFrame {
      * @param secao seção ativa
      */
     private void destacarBotaoAtivo(String secao) {
-        Color corPadrao   = new Color(13, 27, 42);
-        Color corAtivo    = new Color(233, 69, 96);
-        Color textoNormal = new Color(136, 153, 170);
-        Color textoAtivo  = Color.WHITE;
+    Color corPadrao   = new Color(13, 27, 42);
+    Color corAtivo    = new Color(233, 69, 96);
+    Color textoNormal = new Color(136, 153, 170);
+    Color textoAtivo  = Color.WHITE;
 
-        // Reseta todos os botões para cor padrão
-        btnMenuInicio.setBackground(corPadrao);
-        btnMenuInicio.setForeground(textoNormal);
-        btnMenuJogos.setBackground(corPadrao);
-        btnMenuJogos.setForeground(textoNormal);
-        btnMenuClientes.setBackground(corPadrao);
-        btnMenuClientes.setForeground(textoNormal);
-        btnMenuPedidos.setBackground(corPadrao);
-        btnMenuPedidos.setForeground(textoNormal);
+    
+    btnMenuInicio.setBackground(corPadrao);    btnMenuInicio.setForeground(textoNormal);
+    btnMenuJogos.setBackground(corPadrao);     btnMenuJogos.setForeground(textoNormal);
+    btnMenuClientes.setBackground(corPadrao);  btnMenuClientes.setForeground(textoNormal);
+    btnMenuAdmin.setBackground(corPadrao);     btnMenuAdmin.setForeground(textoNormal);
 
-        // Destaca o botão da seção ativa
-        switch (secao) {
-            case "jogos" -> {
-                btnMenuJogos.setBackground(corAtivo);
-                btnMenuJogos.setForeground(textoAtivo);
-            }
-            case "clientes" -> {
-                btnMenuClientes.setBackground(corAtivo);
-                btnMenuClientes.setForeground(textoAtivo);
-            }
-            case "pedidos" -> {
-                btnMenuPedidos.setBackground(corAtivo);
-                btnMenuPedidos.setForeground(textoAtivo);
-            }
-        }
+    
+    switch (secao) {
+        case "jogos"    -> { btnMenuJogos.setBackground(corAtivo);    btnMenuJogos.setForeground(textoAtivo); }
+        case "clientes" -> { btnMenuClientes.setBackground(corAtivo); btnMenuClientes.setForeground(textoAtivo); }
+        case "admin"    -> { btnMenuAdmin.setBackground(corAtivo);    btnMenuAdmin.setForeground(textoAtivo); }
     }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
