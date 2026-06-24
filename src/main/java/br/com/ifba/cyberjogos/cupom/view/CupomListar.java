@@ -1,0 +1,243 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
+ */
+package br.com.ifba.cyberjogos.cupom.view;
+
+import br.com.ifba.cyberjogos.cupom.entity.Cupom;
+import br.com.ifba.cyberjogos.cupom.service.CupomService;
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.util.List;
+
+/**
+ * Tela de listagem de Cupons do sistema CyberJogos.
+ * Carregada dinamicamente no painel central da TelaPrincipal.
+ *
+ * @author Italo
+ */
+@Lazy
+@Component
+public class CupomListar extends javax.swing.JPanel {
+
+    @Autowired
+    private CupomService cupomService;
+
+    private DefaultTableModel modeloTabela;
+
+    
+    public CupomListar() {
+        initComponents();
+        configurarTabela();
+        configurarEventosBotoes();
+    }
+
+    
+    @PostConstruct
+    public void init() {
+        carregarCupons();
+    }
+
+    
+    private void configurarTabela() {
+        modeloTabela = new DefaultTableModel(
+            new String[]{"ID", "Código", "Desconto", "Validade", "Limite de Uso", "Ativo"},
+            0
+        ) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        tblCupons.setModel(modeloTabela);
+        tblCupons.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        tblCupons.getColumnModel().getColumn(0).setPreferredWidth(40);
+        tblCupons.getColumnModel().getColumn(1).setPreferredWidth(120);
+        tblCupons.getColumnModel().getColumn(2).setPreferredWidth(80);
+        tblCupons.getColumnModel().getColumn(3).setPreferredWidth(100);
+        tblCupons.getColumnModel().getColumn(4).setPreferredWidth(100);
+        tblCupons.getColumnModel().getColumn(5).setPreferredWidth(60);
+    }
+
+    
+    private void configurarEventosBotoes() {
+        btnNovo.addActionListener(e -> abrirFormulario(null));
+
+        btnEditar.addActionListener(e -> {
+            Cupom selecionado = getCupomSelecionado();
+            if (selecionado == null) {
+                JOptionPane.showMessageDialog(this,
+                    "Selecione um cupom para editar.",
+                    "Atenção", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            abrirFormulario(selecionado);
+        });
+
+        btnExcluir.addActionListener(e -> excluirCupomSelecionado());
+        btnAtualizar.addActionListener(e -> carregarCupons());
+    }
+
+    /**
+     * Busca todos os cupons no banco e preenche a tabela.
+     */
+    public void carregarCupons() {
+        modeloTabela.setRowCount(0);
+
+        List<Cupom> cupons = cupomService.listarTodos();
+
+        for (Cupom cupom : cupons) {
+            modeloTabela.addRow(new Object[]{
+                cupom.getId(),
+                cupom.getCodigo(),
+                String.format("%.0f%%", cupom.getDesconto()),
+                cupom.getValidade(),
+                cupom.getLimiteUso() + " usos",
+                cupom.getAtivo() ? "✔ Sim" : "✘ Não"
+            });
+        }
+    }
+
+    /**
+     * Retorna o Cupom da linha selecionada na tabela.
+     * Retorna null se nenhuma linha estiver selecionada.
+     */
+    private Cupom getCupomSelecionado() {
+        int linha = tblCupons.getSelectedRow();
+        if (linha == -1) return null;
+
+        Long id = (Long) modeloTabela.getValueAt(linha, 0);
+        return cupomService.buscarPorId(id).orElse(null);
+    }
+
+    /**
+     * Abre o CupomForm para cadastro ou edição.
+     *
+     * @param cupom null para cadastro, preenchido para edição
+     */
+    private void abrirFormulario(Cupom cupom) {
+        CupomForm form = new CupomForm(cupomService, cupom, this);
+        form.setVisible(true);
+    }
+
+    
+    private void excluirCupomSelecionado() {
+        Cupom cupom = getCupomSelecionado();
+
+        if (cupom == null) {
+            JOptionPane.showMessageDialog(this,
+                "Selecione um cupom para excluir.",
+                "Atenção", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int confirmacao = JOptionPane.showConfirmDialog(this,
+            "Deseja excluir o cupom \"" + cupom.getCodigo() + "\"?",
+            "Confirmar exclusão",
+            JOptionPane.YES_NO_OPTION);
+
+        if (confirmacao == JOptionPane.YES_OPTION) {
+            cupomService.excluir(cupom.getId());
+            carregarCupons();
+            JOptionPane.showMessageDialog(this,
+                "Cupom excluído com sucesso!",
+                "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        pnlBotoes = new javax.swing.JPanel();
+        btnNovo = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
+        btnExcluir = new javax.swing.JButton();
+        btnAtualizar = new javax.swing.JButton();
+        scrollTabela = new javax.swing.JScrollPane();
+        tblCupons = new javax.swing.JTable();
+
+        setBackground(new java.awt.Color(13, 17, 23));
+        setLayout(new java.awt.BorderLayout());
+
+        pnlBotoes.setBackground(new java.awt.Color(22, 27, 39));
+        pnlBotoes.setPreferredSize(new java.awt.Dimension(800, 46));
+        pnlBotoes.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
+        btnNovo.setBackground(new java.awt.Color(37, 99, 235));
+        btnNovo.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        btnNovo.setForeground(new java.awt.Color(255, 255, 255));
+        btnNovo.setText("Novo");
+        btnNovo.setBorderPainted(false);
+        btnNovo.setFocusPainted(false);
+        pnlBotoes.add(btnNovo);
+
+        btnEditar.setBackground(new java.awt.Color(15, 28, 56));
+        btnEditar.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        btnEditar.setForeground(new java.awt.Color(96, 165, 250));
+        btnEditar.setText("Editar");
+        btnEditar.setBorderPainted(false);
+        btnEditar.setFocusPainted(false);
+        pnlBotoes.add(btnEditar);
+
+        btnExcluir.setBackground(new java.awt.Color(45, 12, 12));
+        btnExcluir.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        btnExcluir.setForeground(new java.awt.Color(248, 113, 113));
+        btnExcluir.setText("Excluir");
+        btnExcluir.setBorderPainted(false);
+        btnExcluir.setFocusPainted(false);
+        pnlBotoes.add(btnExcluir);
+
+        btnAtualizar.setBackground(new java.awt.Color(22, 27, 39));
+        btnAtualizar.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        btnAtualizar.setForeground(new java.awt.Color(107, 114, 128));
+        btnAtualizar.setText("Atualizar");
+        btnAtualizar.setBorderPainted(false);
+        btnAtualizar.setFocusPainted(false);
+        pnlBotoes.add(btnAtualizar);
+
+        add(pnlBotoes, java.awt.BorderLayout.PAGE_START);
+
+        tblCupons.setBackground(new java.awt.Color(13, 17, 23));
+        tblCupons.setForeground(new java.awt.Color(203, 213, 225));
+        tblCupons.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tblCupons.setGridColor(new java.awt.Color(20, 28, 40));
+        tblCupons.setRowHeight(32);
+        tblCupons.setSelectionBackground(new java.awt.Color(15, 35, 75));
+        scrollTabela.setViewportView(tblCupons);
+
+        add(scrollTabela, java.awt.BorderLayout.CENTER);
+    }// </editor-fold>//GEN-END:initComponents
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAtualizar;
+    private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnExcluir;
+    private javax.swing.JButton btnNovo;
+    private javax.swing.JPanel pnlBotoes;
+    private javax.swing.JScrollPane scrollTabela;
+    private javax.swing.JTable tblCupons;
+    // End of variables declaration//GEN-END:variables
+}

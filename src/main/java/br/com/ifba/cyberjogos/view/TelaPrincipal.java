@@ -12,6 +12,7 @@ import java.awt.Color;
 import org.springframework.context.annotation.Lazy;
 import br.com.ifba.cyberjogos.cliente.view.ClienteListar;
 import br.com.ifba.cyberjogos.administrador.view.AdministradorListar;
+import br.com.ifba.cyberjogos.cupom.view.CupomListar;
 /**
  * Tela principal do sistema CyberJogos.
  * Contém o menu de navegação lateral e o painel central
@@ -100,6 +101,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     btnMenuInicio.addActionListener(e -> mostrarPainelInicio());
     btnMenuJogos.addActionListener(e -> navegarPara("jogos"));
     btnMenuClientes.addActionListener(e -> navegarPara("clientes"));
+    btnMenuCupons.addActionListener(e -> navegarPara("cupons"));
     btnMenuAdmin.addActionListener(e -> navegarPara("admin"));
 }
     
@@ -116,6 +118,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             case "jogos" -> painel = (javax.swing.JPanel) context.getBean(JogoListar.class); 
             case "clientes" -> painel = (javax.swing.JPanel) context.getBean(ClienteListar.class);
             case "admin"    -> painel = (javax.swing.JPanel) context.getBean(AdministradorListar.class);
+            case "cupons"   -> painel = (javax.swing.JPanel) context.getBean(CupomListar.class);
 
         }
 
@@ -160,16 +163,18 @@ public class TelaPrincipal extends javax.swing.JFrame {
     Color textoNormal = new Color(136, 153, 170);
     Color textoAtivo  = Color.WHITE;
 
-    
+    // Reseta todos
     btnMenuInicio.setBackground(corPadrao);    btnMenuInicio.setForeground(textoNormal);
     btnMenuJogos.setBackground(corPadrao);     btnMenuJogos.setForeground(textoNormal);
     btnMenuClientes.setBackground(corPadrao);  btnMenuClientes.setForeground(textoNormal);
+    btnMenuCupons.setBackground(corPadrao);    btnMenuCupons.setForeground(textoNormal);
     btnMenuAdmin.setBackground(corPadrao);     btnMenuAdmin.setForeground(textoNormal);
 
-    
+    // Destaca o ativo
     switch (secao) {
         case "jogos"    -> { btnMenuJogos.setBackground(corAtivo);    btnMenuJogos.setForeground(textoAtivo); }
         case "clientes" -> { btnMenuClientes.setBackground(corAtivo); btnMenuClientes.setForeground(textoAtivo); }
+        case "cupons"   -> { btnMenuCupons.setBackground(corAtivo);   btnMenuCupons.setForeground(textoAtivo); }
         case "admin"    -> { btnMenuAdmin.setBackground(corAtivo);    btnMenuAdmin.setForeground(textoAtivo); }
     }
 }
